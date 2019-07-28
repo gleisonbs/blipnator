@@ -1,0 +1,16 @@
+{
+    "addOperations": [
+        {
+            "criterias": [
+                { "description": "title like", "pattern": "elco" },
+                { "description": "entering action like", "pattern": "test" },
+                { "description": "message to user", "pattern": "bem-vindo" }
+            ],
+            "actions": [
+                { "type": "tracking", "name": "lastState", "tag": "ContentEvent"},
+                { "type": "script", "name": "lastState", "time": "leaving" }
+            ]
+        }
+    ],
+    "removeOperations": []
+}
