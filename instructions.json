@@ -2,13 +2,29 @@
     "addOperations": [
         {
             "criterias": [
-                { "description": "title like", "pattern": "elco" },
-                { "description": "entering action like", "pattern": "test" },
-                { "description": "message to user", "pattern": "bem-vindo" }
+                { "description": "title like", "pattern": "[" }
             ],
             "actions": [
-                { "type": "tracking", "name": "lastState", "tag": "ContentEvent"},
-                { "type": "script", "name": "lastState", "time": "leaving" }
+                { "type": "tracking", "name": "exibicao", "tag": "ContentEvent" },
+                { "type": "tracking", "name": "origem", "tag": "ContentEvent" },
+                { "type": "script", "name": "origem", "tag": "ContentEvent", "time": "leaving" }
+            ]
+        },
+        {
+            "criterias": [
+                { "description": "has quick reply" }
+            ],
+            "actions": [
+                { "type": "script", "name": "chooseAnswer", "tag": "ChooseAnswer", "time": "leaving" },
+                { "type": "tracking", "name": "cliques", "tag": "ContentEvent", "time": "leaving" }
+            ]
+        },
+        {
+            "criterias": [
+                { "description": "awaits input" }
+            ],
+            "actions": [
+                { "type": "tracking", "name": "conteudo", "tag": "ContentEvent", "time": "leaving" }
             ]
         }
     ],

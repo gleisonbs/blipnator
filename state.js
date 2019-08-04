@@ -17,6 +17,8 @@ function state() {
         catch (error) {
             console.log(error);
         }
+
+        return ""
     }
 
     return {

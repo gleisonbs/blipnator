@@ -1,9 +1,11 @@
 parameters = {
 
     get: (block) => {
-        const cleanTitle = () => block["$title"]
+        const getCleanTitle = () => block["$title"]
+        const getPossibleAnswers = () => JSON.stringify(block["$inputSuggestions"])
         return {
-            name: cleanTitle()
+            name: getCleanTitle(),
+            possibleAnswers: getPossibleAnswers()
         }
     }
 }

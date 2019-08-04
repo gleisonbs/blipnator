@@ -9,7 +9,7 @@
             "request": "launch",
             "name": "Launch Program",
             "program": "${workspaceFolder}/main.js",
-            "args": ["blipnator.json", "instructions.json"]
+            "args": ["newbot.json", "instructions.json"]
         }
     ]
 }
