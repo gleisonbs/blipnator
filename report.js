@@ -16,11 +16,16 @@ function report(block, highlight) {
     }
 
     const getHighlight = (action) => {
-        const mappings = {
+        const highlightingFunctions = {
             "tracking category different from block title": (action) => cleanTrackingCategory(action) !== "" && cleanBlockTitle().toLowerCase() !== cleanTrackingCategory(action).toLowerCase()
         }
 
-        if (mappings[highlight](action))
+        shouldHighlight = highlightingFunctions[highlight]
+
+        if (!shouldHighlight) 
+            return false
+
+        if (shouldHighlight(action))
             hasHighlight = true
     }
 
@@ -73,7 +78,7 @@ function report(block, highlight) {
 
     const getFormattedTracking = (tracking) => {      
         getHighlight(tracking)
-        return `\t\tT+ ${tracking["settings"]["category"]}: ${tracking["settings"]["action"]}\n`
+        return `\t\tT ${tracking["$title"]}\n\t\t\tCategoria: ${tracking["settings"]["category"]}\n\t\t\tAção: ${tracking["settings"]["action"]}\n`
     }
 
     const getFormattedScript = (script) => {

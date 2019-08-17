@@ -5,9 +5,10 @@ const report = require('./report.js')
 const actions = require('./actions/actions.js')
 
 
-const saveBot = (bot) => state().save(bot, './output/newbot.json')
-const loadBot = () => state().load(process.argv[2])
-const loadInstructions = () => state().load(process.argv[3])
+const saveBot = (bot) => state().saveJson(bot, './output/newbot.json')
+const saveReport = (report) => state().saveFile(report, './output/report.txt')
+const loadBot = () => state().loadJson(process.argv[2])
+const loadInstructions = () => state().loadJson(process.argv[3])
 
 function start() {    
     bot = loadBot()
@@ -17,22 +18,26 @@ function start() {
         let totalBlocks = 0
         let totalBlocksMatchingCriteria = 0
         let totalBlocksHighlighted = 0
+
+        let reportStr = ""
         for (blockName of Object.keys(bot)) {
             block = bot[blockName]
             
             if (filters().blockMatchesAll(block, operation.criterias)) {
                 totalBlocksMatchingCriteria += 1
                 const { hasHighlight, formattedOutput } = report(block, operation.highlight).display(operation.display)
-                console.log(formattedOutput)
+                reportStr += formattedOutput
                 if (hasHighlight)
                     totalBlocksHighlighted += 1
             }
             totalBlocks += 1
         }
 
-        console.log(`\n\nTotal blocks: ${totalBlocks}`)
-        console.log(`Total blocks matching criteria: ${totalBlocksMatchingCriteria}`)
-        console.log(`Total blocks highlighted: ${totalBlocksHighlighted}`)
+        reportStr += `\nTotal blocks: ${totalBlocks}\n`
+        reportStr += `Total blocks matching criteria: ${totalBlocksMatchingCriteria}`
+        reportStr += `Total blocks highlighted: ${totalBlocksHighlighted}`
+
+        saveReport(reportStr)
     }
 
     for (operation of instructions.remove) {
