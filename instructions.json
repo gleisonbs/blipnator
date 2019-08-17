@@ -1,32 +1,17 @@
 {
-    "addOperations": [
+    "add": [],
+    "remove": [],
+    "report": [
         {
+            "description": "",
             "criterias": [
-                { "description": "title like", "pattern": "[" }
+                { "description": "has trackings" }          
             ],
-            "actions": [
-                { "type": "tracking", "name": "exibicao", "tag": "ContentEvent" },
-                { "type": "tracking", "name": "origem", "tag": "ContentEvent" },
-                { "type": "script", "name": "origem", "tag": "ContentEvent", "time": "leaving" }
-            ]
-        },
-        {
-            "criterias": [
-                { "description": "has quick reply" }
-            ],
-            "actions": [
-                { "type": "script", "name": "chooseAnswer", "tag": "ChooseAnswer", "time": "leaving" },
-                { "type": "tracking", "name": "cliques", "tag": "ContentEvent", "time": "leaving" }
-            ]
-        },
-        {
-            "criterias": [
-                { "description": "awaits input" }
-            ],
-            "actions": [
-                { "type": "tracking", "name": "conteudo", "tag": "ContentEvent", "time": "leaving" }
-            ]
+            "display": {
+                "trackings": true,
+                "scripts": false
+            },
+            "highlight": "tracking category different from block title"
         }
-    ],
-    "removeOperations": []
+    ]
 }
