@@ -43,6 +43,9 @@ function start() {
     for (operation of instructions.remove) {
         for (blockName of Object.keys(bot)) {
             block = bot[blockName]
+
+            if (filters().blockMatchesAll(block, operation.criterias))
+                actions().removeFromBlock(block, operation.type)    
         }
     }
 
@@ -51,7 +54,7 @@ function start() {
             block = bot[blockName]
 
             if (filters().blockMatchesAll(block, operation.criterias))
-                operation.actions.forEach(a => actions().addToBlock(a, block, parameters.get(block)))    
+                operation.actions.forEach(a => actions().addToBlock(a, block, parameters.get(block)))
         }     
     }
 

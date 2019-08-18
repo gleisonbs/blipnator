@@ -23,6 +23,11 @@ function actions() {
             block["$tags"].push(tag);
     }
 
+    function removeFromBlock(block, type) {
+        block["$enteringCustomActions"] = block["$enteringCustomActions"].filter(a => a["type"] !== type)
+        block["$leavingCustomActions"] = block["$leavingCustomActions"].filter(a => a["type"] !== type)
+    }
+
     function addToBlock(action, block, parameters) {
 
         const actionTime = getActionTiming(action.time)
@@ -36,7 +41,8 @@ function actions() {
 
     return {
         getByTypeAndName,
-        addToBlock
+        addToBlock,
+        removeFromBlock
     }
 }
 
