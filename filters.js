@@ -23,18 +23,25 @@ function filters() {
         const lt = block["$leavingCustomActions"].filter(a => a["type"] === "TrackEvent")
         return et.length > 0 || lt.length > 0
     }
+
+    const hasHttpRequests = (block, pattern) => {
+        const et = block["$enteringCustomActions"].filter(a => a["type"] === "ProcessHttp")
+        const lt = block["$leavingCustomActions"].filter(a => a["type"] === "ProcessHttp")
+        return et.length > 0 || lt.length > 0
+    }
     
     const getByDescription = (description) => {
-        const descriptionToFunctionMapping = {
+        const filterFunctions = {
             "title contains": hasTitleLike,
             "entering action like": hasEnteringActionLike,
             "leaving action like": hasLeavingActionLike,
             "has message to user": hasMessageToUser,
             "has user input": hasUserInput,
-            "has trackings": hasTrackings
+            "has trackings": hasTrackings,
+            "has http requests": hasHttpRequests
         }
     
-        return descriptionToFunctionMapping[description]
+        return filterFunctions[description]
     }
 
     function blockMatchesAll(block, criterias) {

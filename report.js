@@ -17,7 +17,8 @@ function report(block, highlight) {
 
     const getHighlight = (action) => {
         const highlightingFunctions = {
-            "tracking category different from block title": (action) => cleanTrackingCategory(action) !== "" && cleanBlockTitle().toLowerCase() !== cleanTrackingCategory(action).toLowerCase()
+            "tracking category different from block title": (action) => cleanTrackingCategory(action) !== "" && cleanBlockTitle().toLowerCase() !== cleanTrackingCategory(action).toLowerCase(),
+            "http request has basic name": (action) => !action["$title"].includes("-")
         }
 
         shouldHighlight = highlightingFunctions[highlight]
@@ -38,27 +39,29 @@ function report(block, highlight) {
         const formattedEnteringActions = enteringActions ? `\tEntering Actions\n${enteringActions}` : ""
         const formattedLeavingActions = leavingActions ? `\tLeaving Actions\n${leavingActions}` : ""
 
-        const formattedOutput = `${hasHighlight ? "--> " : ""}${formattedBlockTitle}${formattedEnteringActions}${formattedLeavingActions}`
+        const formattedOutput = `${hasHighlight ? "--> " : ""}${formattedBlockTitle}${formattedEnteringActions}${formattedLeavingActions}\n`
 
         return { hasHighlight, formattedOutput }
     }
 
     function getEnteringProperties(actions) {
-        const { trackings, scripts } = actions
+        const { trackings, scripts, httpRequests } = actions
 
         let enteringTrackings = trackings ? getActions("entering", "TrackEvent") : ""
         let enteringScripts = scripts ? getActions("entering", "ExecuteScript") : ""
+        let enteringHttpRequests = httpRequests ? getActions("entering", "ProcessHttp") : ""
 
-        return `${enteringTrackings}${enteringScripts}`
+        return `${enteringTrackings}${enteringScripts}${enteringHttpRequests}`
     }
 
     function getLeavingProperties(actions) {
-        const { trackings, scripts } = actions
+        const { trackings, scripts, httpRequests } = actions
 
         let leavingTrackings = trackings ? getActions("leaving", "TrackEvent") : ""
         let leavingScripts = scripts ? getActions("leaving", "ExecuteScript") : ""
+        let leavingHttpRequests = httpRequests ? getActions("leaving", "ProcessHttp") : ""
  
-        return `${leavingTrackings}${leavingScripts}`
+        return `${leavingTrackings}${leavingScripts}${leavingHttpRequests}`
     }
     
     function getActions(timing, type) {
@@ -71,6 +74,8 @@ function report(block, highlight) {
                 formattedActionOutput += getFormattedTracking(action)
             else if (type === "ExecuteScript")
                 formattedActionOutput += getFormattedScript(action)
+            else if (type === "ProcessHttp")
+                formattedActionOutput += getFormattedHttpRequest(action)
         }
 
         return formattedActionOutput
@@ -84,6 +89,11 @@ function report(block, highlight) {
     const getFormattedScript = (script) => {
         getHighlight(script)
         return `\t\tS+ ${script["$title"]}\n`
+    }
+
+    const getFormattedHttpRequest = (httpRequest) => {
+        getHighlight(httpRequest)
+        return `\t\tR+ ${httpRequest["$title"]} - ${httpRequest["settings"]["method"]}: ${httpRequest["settings"]["uri"]}\n`
     }
 
     return {

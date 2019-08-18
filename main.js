@@ -34,7 +34,7 @@ function start() {
         }
 
         reportStr += `\nTotal blocks: ${totalBlocks}\n`
-        reportStr += `Total blocks matching criteria: ${totalBlocksMatchingCriteria}`
+        reportStr += `Total blocks matching criteria: ${totalBlocksMatchingCriteria}\n`
         reportStr += `Total blocks highlighted: ${totalBlocksHighlighted}`
 
         saveReport(reportStr)
