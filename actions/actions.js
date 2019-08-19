@@ -17,10 +17,12 @@ function actions() {
     }
 
     function addTagToBlock(tagName, block) {
-        const tag = tags[tagName.toLowerCase()]
+        if (tagName) {
+            const tag = tags[tagName.toLowerCase()]
 
-        if (blockDoesntContainTag(tag, block))
-            block["$tags"].push(tag);
+            if (blockDoesntContainTag(tag, block))
+                block["$tags"].push(tag);
+        }
     }
 
     function removeFromBlock(block, type) {

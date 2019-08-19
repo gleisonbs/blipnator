@@ -1,62 +1,42 @@
 const state = require('./state.js')
+const fs = require('fs')
+const path = require('path')
 const parameters = require('./actions/parameters.js')
 const filters = require('./filters.js')
-const report = require('./report.js')
+const Report = require('./report.js')
 const actions = require('./actions/actions.js')
 
-
 const saveBot = (bot) => state().saveJson(bot, './output/newbot.json')
-const saveReport = (report) => state().saveFile(report, './output/report.txt')
 const loadBot = () => state().loadJson(process.argv[2])
-const loadInstructions = () => state().loadJson(process.argv[3])
 
-function start() {    
+const getInstructionsList = (path) => fs.readdirSync(path)
+const loadInstructions = (path) => state().loadJson(path)
+
+function start() {
     bot = loadBot()
-    instructions = loadInstructions()
 
-    for (operation of instructions.report) {
-        let totalBlocks = 0
-        let totalBlocksMatchingCriteria = 0
-        let totalBlocksHighlighted = 0
+    const report = new Report(bot)
+    getInstructionsList('./instructions/reports').forEach(report.generate)
 
-        let reportStr = ""
+    getInstructionsList('./instructions/remove').forEach(removeInstructions => {
+        const instruction = loadInstructions(`./instructions/remove/${removeInstructions}`)
         for (blockName of Object.keys(bot)) {
             block = bot[blockName]
             
-            if (filters().blockMatchesAll(block, operation.criterias)) {
-                totalBlocksMatchingCriteria += 1
-                const { hasHighlight, formattedOutput } = report(block, operation.highlight).display(operation.display)
-                reportStr += formattedOutput
-                if (hasHighlight)
-                    totalBlocksHighlighted += 1
-            }
-            totalBlocks += 1
+            if (filters().blockMatchesAll(block, instruction.criterias))
+                actions().removeFromBlock(block, instruction.type)    
         }
+    })
 
-        reportStr += `\nTotal blocks: ${totalBlocks}\n`
-        reportStr += `Total blocks matching criteria: ${totalBlocksMatchingCriteria}\n`
-        reportStr += `Total blocks highlighted: ${totalBlocksHighlighted}`
-
-        saveReport(reportStr)
-    }
-
-    for (operation of instructions.remove) {
+    getInstructionsList('./instructions/add').forEach(addInstructions => {
+        const instructions = loadInstructions(`./instructions/add/${addInstructions}`)
         for (blockName of Object.keys(bot)) {
             block = bot[blockName]
 
-            if (filters().blockMatchesAll(block, operation.criterias))
-                actions().removeFromBlock(block, operation.type)    
-        }
-    }
-
-    for (operation of instructions.add) {
-        for (blockName of Object.keys(bot)) {
-            block = bot[blockName]
-
-            if (filters().blockMatchesAll(block, operation.criterias))
-                operation.actions.forEach(a => actions().addToBlock(a, block, parameters.get(block)))
+            if (filters().blockMatchesAll(block, instructions.criterias))
+                instructions.actions.forEach(a => actions().addToBlock(a, block, parameters.get(block)))
         }     
-    }
+    })
 
     saveBot(bot)
 }

@@ -1,0 +1,11 @@
+{
+    "description": "Generate a report of all the trackings, highlighting (->) those that have a different name from the block",
+    "criterias": [
+        { "description": "has trackings" }          
+    ],
+    "display": {
+        "trackings": true,
+        "scripts": false
+    },
+    "highlight": "tracking category different from block title"
+}

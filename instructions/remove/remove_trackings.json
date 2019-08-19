@@ -1,0 +1,7 @@
+{
+    "description": "",
+    "criterias": [
+        { "description": "has trackings" }          
+    ],
+    "type": "TrackEvent"
+}

@@ -1,0 +1,9 @@
+{
+    "description": "",
+    "criterias": [
+        { "description": "title contains", "pattern": "[" }          
+    ],
+    "actions": [
+        { "type": "tracking", "name": "exibicao", "time": "leaving" }
+    ]
+}

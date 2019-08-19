@@ -1,0 +1,12 @@
+{
+    "description": "",
+    "criterias": [
+        { "description": "has http requests" }          
+    ],
+    "display": {
+        "trackings": false,
+        "scripts": false,
+        "httpRequests": true
+    },
+    "highlight": "http request has basic name"
+}
