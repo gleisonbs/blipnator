@@ -16,29 +16,31 @@ function start() {
     bot = loadBot()
 
     const report = new Report(bot)
-    getInstructionsList('./instructions/reports').forEach(report.generate)
+    const reportList = getInstructionsList('./instructions/reports')
+    for (reportName of reportList)
+        report.generate(reportName)
 
-    getInstructionsList('./instructions/remove').forEach(removeInstructions => {
-        const instruction = loadInstructions(`./instructions/remove/${removeInstructions}`)
-        for (blockName of Object.keys(bot)) {
-            block = bot[blockName]
+    // getInstructionsList('./instructions/remove').forEach(removeInstructions => {
+    //     const instruction = loadInstructions(`./instructions/remove/${removeInstructions}`)
+    //     for (blockName of Object.keys(bot)) {
+    //         block = bot[blockName]
             
-            if (filters().blockMatchesAll(block, instruction.criterias))
-                actions().removeFromBlock(block, instruction.type)    
-        }
-    })
+    //         if (filters().blockMatchesAll(block, instruction.criterias))
+    //             actions().removeFromBlock(block, instruction.type)    
+    //     }
+    // })
 
-    getInstructionsList('./instructions/add').forEach(addInstructions => {
-        const instructions = loadInstructions(`./instructions/add/${addInstructions}`)
-        for (blockName of Object.keys(bot)) {
-            block = bot[blockName]
+    // getInstructionsList('./instructions/add').forEach(addInstructions => {
+    //     const instructions = loadInstructions(`./instructions/add/${addInstructions}`)
+    //     for (blockName of Object.keys(bot)) {
+    //         block = bot[blockName]
 
-            if (filters().blockMatchesAll(block, instructions.criterias))
-                instructions.actions.forEach(a => actions().addToBlock(a, block, parameters.get(block)))
-        }     
-    })
+    //         if (filters().blockMatchesAll(block, instructions.criterias))
+    //             instructions.actions.forEach(a => actions().addToBlock(a, block, parameters.get(block)))
+    //     }     
+    // })
 
-    saveBot(bot)
+    // saveBot(bot)
 }
 
 start()
