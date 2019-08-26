@@ -16,7 +16,9 @@ function start() {
     bot = loadBot()
 
     const report = new Report(bot)
-    getInstructionsList('./instructions/reports').forEach(report.generate)
+    const instructionList = getInstructionsList('./instructions/reports')
+    for (instruction of instructionList)
+        report.generate(instruction)
 
     getInstructionsList('./instructions/remove').forEach(removeInstructions => {
         const instruction = loadInstructions(`./instructions/remove/${removeInstructions}`)
@@ -24,7 +26,7 @@ function start() {
             block = bot[blockName]
             
             if (filters().blockMatchesAll(block, instruction.criterias))
-                actions().removeFromBlock(block, instruction.type)    
+                instruction.actions.forEach(a => actions().removeFromBlock(a, block))
         }
     })
 
@@ -39,6 +41,8 @@ function start() {
     })
 
     saveBot(bot)
+
+    console.log("Modificações realizadas com sucesso")
 }
 
 start()

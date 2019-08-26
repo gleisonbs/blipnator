@@ -1,0 +1,9 @@
+{
+    "description": "",
+    "criterias": [
+        { "description": "title contains", "pattern": "[" }
+    ],
+    "actions": [
+        { "type": "script", "name": "origem", "time": "leaving", "tag": "ExecuteScript" }
+    ]
+}

@@ -1,0 +1,13 @@
+{
+    "description": "",
+    "criterias": [
+        { "description": "title contains", "pattern": "[" },
+        { "description": "has user input" }
+    ],
+    "actions": [
+        { "type": "script", "name": "inputcontentsubstring", "time": "leaving" },
+        { "type": "tracking", "name": "conteudo", "time": "leaving" }
+    ]
+}
+
+

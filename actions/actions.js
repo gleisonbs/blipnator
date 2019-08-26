@@ -20,14 +20,27 @@ function actions() {
         if (tagName) {
             const tag = tags[tagName.toLowerCase()]
 
-            if (blockDoesntContainTag(tag, block))
-                block["$tags"].push(tag);
+            block["$tags"] = block["$tags"].filter(t => t["label"].toLowerCase() !== tagName.toLowerCase())
+            block["$tags"].push(tag);
         }
     }
 
-    function removeFromBlock(block, type) {
-        block["$enteringCustomActions"] = block["$enteringCustomActions"].filter(a => a["type"] !== type)
-        block["$leavingCustomActions"] = block["$leavingCustomActions"].filter(a => a["type"] !== type)
+    const removeTagFromBlock = (tagLabel, block) => block["$tags"] = block["$tags"].filter(t => t["$label"] !== tagLabel)
+
+    function removeFromBlock(actionToRemove, block) {
+        timings = ["$enteringCustomActions", "$leavingCustomActions"]
+        if (actionToRemove.type === "TrackEvent") {
+            for (let time of timings)
+                block[time] = block[time].filter(a => a["type"] !== actionToRemove.type || 
+                (!a["settings"]["category"].includes(actionToRemove.pattern) && !a["settings"]["action"].includes(actionToRemove.pattern)))
+        }
+        else if (actionToRemove.type === "Tag") {
+            block["$tags"] = block["$tags"].filter(t => t["label"].toLowerCase() !== actionToRemove.pattern.toLowerCase())
+        }
+        else if (actionToRemove.type === "ExecuteScript") {
+            for (let time of timings)
+                block[time] = block[time].filter(a => a["type"] !== actionToRemove.type || !a["$title"].includes(actionToRemove.pattern))
+        }
     }
 
     function addToBlock(action, block, parameters) {

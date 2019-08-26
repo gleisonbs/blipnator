@@ -19,7 +19,7 @@ function trackings() {
             },
             origem: {
                 "type": "TrackEvent",
-                "$title": "Registro de eventos - Last State",
+                "$title": "Registro de eventos - Origem",
                 "$invalid": false,
                 "settings": {
                     "extras": {
@@ -46,7 +46,7 @@ function trackings() {
                         "sessionId": "{{sessionId}}"
                     },
                     "category": parameters.name + " - conteudo",
-                    "action": "{{input.content}}"
+                    "action": "{{inputContentSubstring}}"
                 }
             },
             cliques: {
@@ -63,6 +63,22 @@ function trackings() {
                     },
                     "category": parameters.name + " - cliques",
                     "action": "{{chooseAnswer}}"
+                }
+            },
+            userid: {
+                "type": "TrackEvent",
+                "$title": "Registro de eventos - UserId",
+                "$invalid": false,
+                "settings": {
+                    "extras": {
+                        "userId": "{{contact.identity}}",
+                        "originatorMessageId": "{{input.message@id}}",
+                        "userEmail": "{{contact.email}}",
+                        "userName": "{{contact.name}}",
+                        "sessionId": "{{sessionId}}"
+                    },
+                    "category": parameters.name + " - userid",
+                    "action": "{{contact.identity}}"
                 }
             }
         }

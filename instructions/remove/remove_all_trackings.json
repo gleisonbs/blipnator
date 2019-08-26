@@ -1,0 +1,11 @@
+{
+    "description": "",
+    "criterias": [
+        { "description": "has trackings" }          
+    ],
+    "actions": [
+        { "type": "TrackEvent", "pattern": "" },
+        { "type": "Tag", "pattern": "trackevent" },
+        { "type": "Tag", "pattern": "savecontent" }
+    ]
+}

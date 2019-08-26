@@ -1,0 +1,9 @@
+{
+    "description": "",
+    "criterias": [
+        { "description": "title contains", "pattern": "[" }
+    ],
+    "actions": [
+        { "type": "TrackEvent", "name": "userid", "time": "entering" }
+    ]
+}

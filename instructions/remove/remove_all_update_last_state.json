@@ -1,0 +1,12 @@
+{
+    "description": "",
+    "criterias": [
+        { "description": "title contains", "pattern": "" }          
+    ],
+    "actions": [
+        { "type": "ExecuteScript", "pattern": "Update lastState" },
+        { "type": "ExecuteScript", "pattern": "Input Content Substring" },
+        { "type": "Tag", "pattern": "inputscripts" },
+        { "type": "Tag", "pattern": "laststateupdatescript" }
+    ]
+}

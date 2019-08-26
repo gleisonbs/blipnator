@@ -23,7 +23,7 @@ class Report {
     getReportName(reportFilename) { return path.parse(reportFilename).name }
 
     generate(reportName) {
-        const instruction = this.loadInstructions(instructionsName)
+        const instruction = this.loadInstructions(reportName)
         this.highlightName = instruction.highlight
         let totalBlocksMatchingCriteria = 0
 
@@ -38,7 +38,7 @@ class Report {
 
         reportStr += this.getSummary(totalBlocksMatchingCriteria)
 
-        this.save(reportStr, this.getReportName(instructionsName))
+        this.save(reportStr, this.getReportName(reportName))
     }
 
     getSummary(totalBlocksMatchingCriteria) {

@@ -4,8 +4,7 @@
         { "description": "has trackings" }          
     ],
     "display": {
-        "trackings": true,
-        "scripts": false
+        "trackings": true
     },
     "highlight": "tracking category different from block title"
 }

@@ -1,0 +1,10 @@
+{
+    "description": "",
+    "criterias": [
+        { "description": "title contains", "pattern": "" }          
+    ],
+    "actions": [
+        { "type": "tracking", "name": "exibicao", "time": "entering", "tag": "TrackEvent" },
+        { "type": "tracking", "name": "origem", "time": "entering" }
+    ]
+}
